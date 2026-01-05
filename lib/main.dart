@@ -23,11 +23,40 @@ class BigCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Text(
-          pair.asLowerCase,
+          "${pair.first.toLowerCase()} ${pair.second.toLowerCase()}",
           style: style,
           semanticsLabel: "${pair.first} ${pair.second}",
         ),
       ),
+    );
+  }
+}
+
+class FavoritesPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+
+    return Center(
+      child: appState.favorites.isEmpty
+          ? Text('No favorites yet.')
+          : ListView(
+              children: [
+                ...appState.favorites.map(
+                  (pair) => ListTile(
+                    contentPadding: EdgeInsets.only(left: 80, right: 80),
+                    title: Text(
+                      "${pair.first.toLowerCase()} ${pair.second.toLowerCase()}",
+                    ),
+                    leading: Icon(Icons.abc),
+                    trailing: Icon(Icons.favorite),
+                    onTap: () {
+                      appState.toggleFavorite(pair: pair);
+                    },
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }
@@ -56,7 +85,7 @@ class GeneratorPage extends StatelessWidget {
             children: [
               ElevatedButton.icon(
                 onPressed: () {
-                  appState.toggleFavorite();
+                  appState.toggleFavorite(pair: null);
                 },
                 icon: Icon(icon),
                 label: Text('Like'),
@@ -105,14 +134,17 @@ class MyAppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
-      print('${current.asLowerCase} removed from favorites');
+  void toggleFavorite({WordPair? pair}) {
+    final target = pair ?? current;
+
+    if (favorites.contains(target)) {
+      favorites.remove(target);
+      print('${target.asLowerCase} removed from favorites');
     } else {
-      favorites.add(current);
-      print('${current.asLowerCase} added to favorites');
+      favorites.add(target);
+      print('${target.asLowerCase} added to favorites');
     }
+
     notifyListeners();
   }
 }
@@ -133,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = GeneratorPage();
         break;
       case 1:
-        page = Placeholder();
+        page = FavoritesPage();
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
