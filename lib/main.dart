@@ -39,23 +39,23 @@ class FavoritesPage extends StatelessWidget {
 
     return Center(
       child: appState.favorites.isEmpty
-          ? Text('No favorites yet.')
-          : ListView(
-              children: [
-                ...appState.favorites.map(
-                  (pair) => ListTile(
-                    contentPadding: EdgeInsets.only(left: 80, right: 80),
-                    title: Text(
-                      "${pair.first.toLowerCase()} ${pair.second.toLowerCase()}",
-                    ),
-                    leading: Icon(Icons.abc),
-                    trailing: Icon(Icons.favorite),
-                    onTap: () {
-                      appState.toggleFavorite(pair: pair);
-                    },
+          ? const Text('No favorites yet.')
+          : ListView.builder(
+              itemCount: appState.favorites.length,
+              itemBuilder: (context, index) {
+                final pair = appState.favorites[index];
+                return ListTile(
+                  contentPadding: const EdgeInsets.only(left: 80, right: 80),
+                  title: Text(
+                    "${pair.first.toLowerCase()} ${pair.second.toLowerCase()}",
                   ),
-                ),
-              ],
+                  leading: const Icon(Icons.abc),
+                  trailing: const Icon(Icons.favorite),
+                  onTap: () {
+                    appState.toggleFavorite(pair: pair);
+                  },
+                );
+              },
             ),
     );
   }
