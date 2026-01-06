@@ -40,22 +40,45 @@ class FavoritesPage extends StatelessWidget {
     return Center(
       child: appState.favorites.isEmpty
           ? const Text('No favorites yet.')
-          : ListView.builder(
-              itemCount: appState.favorites.length,
-              itemBuilder: (context, index) {
-                final pair = appState.favorites[index];
-                return ListTile(
-                  contentPadding: const EdgeInsets.only(left: 80, right: 80),
-                  title: Text(
-                    "${pair.first.toLowerCase()} ${pair.second.toLowerCase()}",
+          : Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      "You have ${appState.favorites.length} favorites:",
+                    ),
                   ),
-                  leading: const Icon(Icons.abc),
-                  trailing: const Icon(Icons.favorite),
-                  onTap: () {
-                    appState.toggleFavorite(pair: pair);
-                  },
-                );
-              },
+                  Expanded(
+                    child: SizedBox(
+                      width: 500,
+                      child: ListView.builder(
+                        itemCount: appState.favorites.length,
+                        itemBuilder: (context, index) {
+                          final pair = appState.favorites[index];
+                          return ListTile(
+                            contentPadding: const EdgeInsets.only(
+                              left: 80,
+                              right: 80,
+                            ),
+                            title: Text(
+                              "${pair.first.toLowerCase()} ${pair.second.toLowerCase()}",
+                            ),
+                            leading: const Icon(Icons.abc),
+                            trailing: const Icon(Icons.favorite),
+                            onTap: () {
+                              appState.toggleFavorite(pair: pair);
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
     );
   }
