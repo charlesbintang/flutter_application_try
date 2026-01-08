@@ -52,6 +52,7 @@ class FavoritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
+    var theme = Theme.of(context);
 
     if (appState.favorites.isEmpty) {
       return Center(child: const Text('No favorites yet.'));
@@ -69,28 +70,30 @@ class FavoritesPage extends StatelessWidget {
               child: Text("You have ${appState.favorites.length} favorites:"),
             ),
             Expanded(
-              child: SizedBox(
-                width: 500,
-                child: ListView.builder(
-                  itemCount: appState.favorites.length,
-                  itemBuilder: (context, index) {
-                    final pair = appState.favorites[index];
-                    return ListTile(
-                      contentPadding: const EdgeInsets.only(
-                        left: 20,
-                        right: 20,
+              child: GridView(
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 400,
+                  childAspectRatio: 400 / 80,
+                ),
+                children: [
+                  for (var pair in appState.favorites)
+                    ListTile(
+                      leading: IconButton(
+                        icon: Icon(
+                          Icons.delete_outline,
+                          semanticLabel: 'Delete',
+                        ),
+                        color: theme.colorScheme.primary,
+                        onPressed: () {
+                          appState.removeFavorite(pair);
+                        },
                       ),
                       title: Text(
-                        "${pair.first.toLowerCase()} ${pair.second.toLowerCase()}",
+                        pair.asLowerCase,
+                        semanticsLabel: pair.asPascalCase,
                       ),
-                      leading: const Icon(Icons.abc),
-                      trailing: const Icon(Icons.delete),
-                      onTap: () {
-                        appState.toggleFavorite(pair: pair);
-                      },
-                    );
-                  },
-                ),
+                    ),
+                ],
               ),
             ),
           ],
