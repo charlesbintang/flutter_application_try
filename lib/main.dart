@@ -149,13 +149,19 @@ class MyApp extends StatelessWidget {
 
 class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
+  var history = <WordPair>[];
 
-  var favorites = <WordPair>[];
+  GlobalKey? historyListKey;
 
   void getNext() {
+    history.insert(0, current);
+    var animatedList = historyListKey?.currentState as AnimatedListState?;
+    animatedList?.insertItem(0);
     current = WordPair.random();
     notifyListeners();
   }
+
+  var favorites = <WordPair>[];
 
   void toggleFavorite({WordPair? pair}) {
     final target = pair ?? current;
@@ -168,6 +174,11 @@ class MyAppState extends ChangeNotifier {
       print('${target.asLowerCase} added to favorites');
     }
 
+    notifyListeners();
+  }
+
+  void removeFavorite(WordPair pair) {
+    favorites.remove(pair);
     notifyListeners();
   }
 }
