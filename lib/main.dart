@@ -22,10 +22,26 @@ class BigCard extends StatelessWidget {
       color: theme.colorScheme.primary,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Text(
-          "${pair.first.toLowerCase()} ${pair.second.toLowerCase()}",
-          style: style,
-          semanticsLabel: "${pair.first} ${pair.second}",
+        child: AnimatedSize(
+          duration: Duration(milliseconds: 200),
+          // Make sure that the compound word wraps correctly when the window
+          // is too narrow.
+          child: MergeSemantics(
+            child: Wrap(
+              children: [
+                Text(
+                  pair.first.toLowerCase(),
+                  style: style.copyWith(fontWeight: FontWeight.w200),
+                  semanticsLabel: pair.first,
+                ),
+                Text(
+                  pair.second.toLowerCase(),
+                  style: style.copyWith(fontWeight: FontWeight.bold),
+                  semanticsLabel: pair.second,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
