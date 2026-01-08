@@ -41,39 +41,44 @@ class FavoritesPage extends StatelessWidget {
       return Center(child: const Text('No favorites yet.'));
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Text("You have ${appState.favorites.length} favorites:"),
-          ),
-          Expanded(
-            child: SizedBox(
-              width: 500,
-              child: ListView.builder(
-                itemCount: appState.favorites.length,
-                itemBuilder: (context, index) {
-                  final pair = appState.favorites[index];
-                  return ListTile(
-                    contentPadding: const EdgeInsets.only(left: 20, right: 20),
-                    title: Text(
-                      "${pair.first.toLowerCase()} ${pair.second.toLowerCase()}",
-                    ),
-                    leading: const Icon(Icons.abc),
-                    trailing: const Icon(Icons.favorite),
-                    onTap: () {
-                      appState.toggleFavorite(pair: pair);
-                    },
-                  );
-                },
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text("You have ${appState.favorites.length} favorites:"),
+            ),
+            Expanded(
+              child: SizedBox(
+                width: 500,
+                child: ListView.builder(
+                  itemCount: appState.favorites.length,
+                  itemBuilder: (context, index) {
+                    final pair = appState.favorites[index];
+                    return ListTile(
+                      contentPadding: const EdgeInsets.only(
+                        left: 20,
+                        right: 20,
+                      ),
+                      title: Text(
+                        "${pair.first.toLowerCase()} ${pair.second.toLowerCase()}",
+                      ),
+                      leading: const Icon(Icons.abc),
+                      trailing: const Icon(Icons.delete),
+                      onTap: () {
+                        appState.toggleFavorite(pair: pair);
+                      },
+                    );
+                  },
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
