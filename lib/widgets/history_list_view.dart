@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/app_state.dart';
+import '../viewmodels/app_viewmodel.dart';
 
 class HistoryListView extends StatefulWidget {
   const HistoryListView({super.key});
@@ -52,8 +52,8 @@ class _HistoryListViewState extends State<HistoryListView> {
                     ? Icon(Icons.favorite, size: 12)
                     : SizedBox(),
                 label: Text(
-                  pair.asLowerCase,
-                  semanticsLabel: pair.asPascalCase,
+                  "${pair.first.toLowerCase()} ${pair.second.toLowerCase()}",
+                  semanticsLabel: "${pair.first} ${pair.second}",
                 ),
               ),
             ),

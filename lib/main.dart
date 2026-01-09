@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'providers/app_state.dart';
 import 'screens/home_page.dart';
+import 'viewmodels/app_viewmodel.dart';
 
 void main() {
   runApp(const MyApp());

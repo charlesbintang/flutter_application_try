@@ -36,4 +36,3 @@ class MyAppState extends ChangeNotifier {
     notifyListeners();
   }
 }
-

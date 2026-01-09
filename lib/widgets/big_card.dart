@@ -29,6 +29,7 @@ class BigCard extends StatelessWidget {
                   style: style.copyWith(fontWeight: FontWeight.w200),
                   semanticsLabel: pair.first,
                 ),
+                SizedBox(width: 10),
                 Text(
                   pair.second.toLowerCase(),
                   style: style.copyWith(fontWeight: FontWeight.bold),
@@ -42,4 +43,3 @@ class BigCard extends StatelessWidget {
     );
   }
 }
-

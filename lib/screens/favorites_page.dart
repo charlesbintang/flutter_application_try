@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/app_state.dart';
+
+import '../viewmodels/app_viewmodel.dart';
 
 class FavoritesPage extends StatelessWidget {
   @override
@@ -43,8 +44,8 @@ class FavoritesPage extends StatelessWidget {
                         },
                       ),
                       title: Text(
-                        pair.asLowerCase,
-                        semanticsLabel: pair.asPascalCase,
+                        "${pair.first.toLowerCase()} ${pair.second.toLowerCase()}",
+                        semanticsLabel: "${pair.first} ${pair.second}",
                       ),
                     ),
                 ],
@@ -56,4 +57,3 @@ class FavoritesPage extends StatelessWidget {
     );
   }
 }
-
